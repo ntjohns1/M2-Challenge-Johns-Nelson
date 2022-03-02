@@ -1,13 +1,16 @@
 package com.company.MonthAndMathService.models;
 
+import javax.validation.constraints.NotNull;
 import java.util.Objects;
 
 public class MathSolution {
 
+    @NotNull(message = "1st operand can not be null")
     private Integer operand1;
+    @NotNull(message = "2nd operand can not be null")
     private Integer operand2;
     private String operation;
-    private Integer answer;
+    private int answer;
 
     public Integer getOperand1() {
         return operand1;

@@ -11,7 +11,7 @@ import org.springframework.web.server.ResponseStatusException;
 @RestController
 public class MonthController {
 
-    @GetMapping(value = "/month/monthNumber")
+    @GetMapping(value = "/month/{num}")
     @ResponseStatus(value = HttpStatus.OK)
     public Month getMonth(@PathVariable String num) {
 

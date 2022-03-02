@@ -2,11 +2,15 @@ package com.company.MonthAndMathService.models;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
+import java.time.LocalDateTime;
+
 public class CustomErrorResponse {
 
     String errorMessage;
     int status;
     String errorCode;
+    LocalDateTime timestamp;
+
 
     public CustomErrorResponse() {
     }
@@ -38,5 +42,12 @@ public class CustomErrorResponse {
 
     public void setErrorCode(String errorCode) {
         this.errorCode = errorCode;
+    }
+    public LocalDateTime getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(LocalDateTime timestamp) {
+        this.timestamp = timestamp;
     }
 }
