@@ -12,6 +12,14 @@ public class MathSolution {
     private String operation;
     private int answer;
 
+    public MathSolution() {
+    }
+
+    public MathSolution(Integer operand1, Integer operand2) {
+        this.operand1 = operand1;
+        this.operand2 = operand2;
+    }
+
     public Integer getOperand1() {
         return operand1;
     }

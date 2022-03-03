@@ -10,8 +10,6 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
-import static org.junit.Assert.*;
-
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -44,12 +42,12 @@ public class MonthControllerTest {
         String outputJson3 = mapper.writeValueAsString(output3);
 
         mockMvc.perform(get("/month/1")
-                    .contentType(MediaType.APPLICATION_JSON))
+                        .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().string(outputJson1));
         mockMvc.perform(get("/month/7")
-                    .contentType(MediaType.APPLICATION_JSON))
+                        .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().string(outputJson2));
@@ -69,8 +67,8 @@ public class MonthControllerTest {
 
     @Test
     public void shouldReturn422ErrorCodeIfInputOutOfRange() throws Exception {
-            mockMvc.perform(get("/month/13"))
-                    .andDo(print())
-                    .andExpect(status().isUnprocessableEntity());
+        mockMvc.perform(get("/month/13"))
+                .andDo(print())
+                .andExpect(status().isUnprocessableEntity());
     }
 }

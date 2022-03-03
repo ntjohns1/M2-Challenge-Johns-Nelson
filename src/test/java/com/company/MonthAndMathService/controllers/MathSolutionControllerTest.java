@@ -1,13 +1,180 @@
 package com.company.MonthAndMathService.controllers;
 
+import com.company.MonthAndMathService.models.MathSolution;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.web.servlet.MockMvc;
 
-import static org.junit.Assert.*;
+import java.util.HashMap;
+import java.util.Map;
+
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
 @RunWith(SpringRunner.class)
 @WebMvcTest(MathSolutionController.class)
 public class MathSolutionControllerTest {
 
+    @Autowired
+    private MockMvc mockMvc;
 
+    ObjectMapper mapper = new ObjectMapper();
+
+    @Test
+    public void shouldAddIntegersAndReturn200StatusCode() throws Exception {
+
+        Map<String, String> input = new HashMap<>();
+        input.put("operand1", "8");
+        input.put("operand2", "8");
+        String inputJson = mapper.writeValueAsString(input);
+
+        MathSolution math = new MathSolution();
+        math.setOperand1(8);
+        math.setOperand2(8);
+        math.setOperation("add");
+        math.setAnswer(math.getOperand1() + math.getOperand2());
+        String expectedJson = mapper.writeValueAsString(math);
+
+        mockMvc.perform(post("/add")
+                        .content(inputJson)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk()).andExpect(content().json(expectedJson));
+    }
+
+    @Test
+    public void shouldSubtractIntegersAndReturn200StatusCode() throws Exception {
+
+        Map<String, String> input = new HashMap<>();
+        input.put("operand1", "20");
+        input.put("operand2", "10");
+        String inputJson = mapper.writeValueAsString(input);
+
+        MathSolution math = new MathSolution();
+        math.setOperand1(20);
+        math.setOperand2(10);
+        math.setOperation("subtract");
+        math.setAnswer(math.getOperand1() - math.getOperand2());
+        String expectedJson = mapper.writeValueAsString(math);
+
+        mockMvc.perform(post("/subtract")
+                        .content(inputJson)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk()).andExpect(content().json(expectedJson));
+
+    }
+
+    @Test
+    public void shouldMultiplyIntegersAndReturn200StatusCode() throws Exception {
+        Map<String, String> input = new HashMap<>();
+        input.put("operand1", "3");
+        input.put("operand2", "2");
+        String inputJson = mapper.writeValueAsString(input);
+
+        MathSolution math = new MathSolution();
+        math.setOperand1(3);
+        math.setOperand2(2);
+        math.setOperation("multiply");
+        math.setAnswer(math.getOperand1() * math.getOperand2());
+        String expectedJson = mapper.writeValueAsString(math);
+
+        mockMvc.perform(post("/multiply")
+                        .content(inputJson)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk()).andExpect(content().json(expectedJson));
+
+    }
+
+    @Test
+    public void shouldDivideIntegersAndReturn200StatusCode() throws Exception {
+        Map<String, String> input = new HashMap<>();
+        input.put("operand1", "16");
+        input.put("operand2", "2");
+        String inputJson = mapper.writeValueAsString(input);
+
+        MathSolution math = new MathSolution();
+        math.setOperand1(16);
+        math.setOperand2(2);
+        math.setOperation("divide");
+        math.setAnswer(math.getOperand1() / math.getOperand2());
+        String expectedJson = mapper.writeValueAsString(math);
+
+        mockMvc.perform(post("/divide")
+                        .content(inputJson)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk()).andExpect(content().json(expectedJson));
+    }
+
+    @Test
+    public void shouldReturn422ErrorCodeWithNonIntegerInput() throws Exception {
+        Map<String, String> input1 = new HashMap<>();
+        input1.put("operand1", "16");
+        input1.put("operand2", "Three");
+        String inputJson1 = mapper.writeValueAsString(input1);
+
+        mockMvc.perform(post("/add")
+                        .content(inputJson1)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isUnprocessableEntity());
+
+        Map<String, String> input2 = new HashMap<>();
+        input2.put("operand1", "Six");
+        input2.put("operand2", "12");
+        String inputJson2 = mapper.writeValueAsString(input2);
+
+        mockMvc.perform(post("/multiply")
+                        .content(inputJson2)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isUnprocessableEntity());
+    }
+
+    @Test
+    public void shouldReturn422ErrorCodeWithNullInput() throws Exception {
+        Map<String, String> input1 = new HashMap<>();
+        input1.put("operand1", null);
+        input1.put("operand2", "16");
+        String inputJson1 = mapper.writeValueAsString(input1);
+
+        mockMvc.perform(post("/divide")
+                        .content(inputJson1)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isUnprocessableEntity());
+
+        Map<String, String> input2 = new HashMap<>();
+        input2.put("operand1", "5");
+        input2.put("operand2", null);
+        String inputJson2 = mapper.writeValueAsString(input2);
+
+        mockMvc.perform(post("/subtract")
+                        .content(inputJson2)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isUnprocessableEntity());
+    }
+
+    @Test
+    public void shouldReturn422ErrorCodeWithDivisionByZero()throws Exception {
+        Map<String, String> input = new HashMap<>();
+        input.put("operand1", "16");
+        input.put("operand2", "0");
+        String inputJson = mapper.writeValueAsString(input);
+
+        mockMvc.perform(post("/divide")
+                        .content(inputJson)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isUnprocessableEntity());
+    }
 }
