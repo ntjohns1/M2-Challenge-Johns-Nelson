@@ -1,6 +1,7 @@
 package com.company.MonthAndMathService.controllers;
 
 import com.company.MonthAndMathService.models.MathSolution;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -13,6 +14,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import java.util.HashMap;
 import java.util.Map;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -128,12 +130,34 @@ public class MathSolutionControllerTest {
                 .andExpect(status().isUnprocessableEntity());
 
         Map<String, String> input2 = new HashMap<>();
-        input2.put("operand1", "Six");
-        input2.put("operand2", "12");
+        input2.put("operand1"," false");
+        input2.put("operand2", "10");
         String inputJson2 = mapper.writeValueAsString(input2);
 
-        mockMvc.perform(post("/multiply")
+        mockMvc.perform(post("/subtract")
                         .content(inputJson2)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isUnprocessableEntity());
+
+        Map<String, String> input3 = new HashMap<>();
+        input3.put("operand1", "Six");
+        input3.put("operand2", "12");
+        String inputJson3 = mapper.writeValueAsString(input3);
+
+        mockMvc.perform(post("/multiply")
+                        .content(inputJson3)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isUnprocessableEntity());
+
+        Map<String, String> input4 = new HashMap<>();
+        input4.put("operand1", "one");
+        input4.put("operand2", "2");
+        String inputJson4 = mapper.writeValueAsString(input4);
+
+        mockMvc.perform(post("/divide")
+                        .content(inputJson4)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isUnprocessableEntity());
@@ -146,19 +170,41 @@ public class MathSolutionControllerTest {
         input1.put("operand2", "16");
         String inputJson1 = mapper.writeValueAsString(input1);
 
-        mockMvc.perform(post("/divide")
+        mockMvc.perform(post("/add")
                         .content(inputJson1)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isUnprocessableEntity());
 
-        Map<String, String> input2 = new HashMap<>();
-        input2.put("operand1", "5");
+ Map<String, String> input2 = new HashMap<>();
+        input2.put("operand1", null);
         input2.put("operand2", null);
         String inputJson2 = mapper.writeValueAsString(input2);
 
         mockMvc.perform(post("/subtract")
                         .content(inputJson2)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isUnprocessableEntity());
+
+        Map<String, String> input3 = new HashMap<>();
+        input3.put("operand1", "5");
+        input3.put("operand2", null);
+        String inputJson3 = mapper.writeValueAsString(input3);
+
+        mockMvc.perform(post("/multiply")
+                        .content(inputJson3)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isUnprocessableEntity());
+
+        Map<String, String> input4 = new HashMap<>();
+        input4.put("operand1", "5");
+        input4.put("operand2", null);
+        String inputJson4 = mapper.writeValueAsString(input4);
+
+        mockMvc.perform(post("/divide")
+                        .content(inputJson4)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isUnprocessableEntity());
