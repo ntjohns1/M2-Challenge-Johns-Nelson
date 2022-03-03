@@ -1,7 +1,5 @@
 package com.company.MonthAndMathService.models;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-
 import java.time.LocalDateTime;
 
 public class CustomErrorResponse {
@@ -43,6 +41,7 @@ public class CustomErrorResponse {
     public void setErrorCode(String errorCode) {
         this.errorCode = errorCode;
     }
+
     public LocalDateTime getTimestamp() {
         return timestamp;
     }

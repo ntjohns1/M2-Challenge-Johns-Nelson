@@ -26,19 +26,13 @@ public class MonthControllerTest {
     @Test
     public void shouldReturnMonthNameFromInputValue() throws Exception {
 
-        Month output1 = new Month();
-        output1.setNumber("1");
-        output1.setName("January");
+        Month output1 = new Month("1","January");
         String outputJson1 = mapper.writeValueAsString(output1);
 
-        Month output2 = new Month();
-        output2.setNumber("7");
-        output2.setName("July");
+        Month output2 = new Month("7","July");
         String outputJson2 = mapper.writeValueAsString(output2);
 
-        Month output3 = new Month();
-        output3.setNumber("11");
-        output3.setName("November");
+        Month output3 = new Month("11","November");
         String outputJson3 = mapper.writeValueAsString(output3);
 
         mockMvc.perform(get("/month/1")

@@ -14,7 +14,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -36,10 +35,7 @@ public class MathSolutionControllerTest {
         input.put("operand2", "8");
         String inputJson = mapper.writeValueAsString(input);
 
-        MathSolution math = new MathSolution();
-        math.setOperand1(8);
-        math.setOperand2(8);
-        math.setOperation("add");
+        MathSolution math = new MathSolution(8,8,"add");
         math.setAnswer(math.getOperand1() + math.getOperand2());
         String expectedJson = mapper.writeValueAsString(math);
 
@@ -58,10 +54,7 @@ public class MathSolutionControllerTest {
         input.put("operand2", "10");
         String inputJson = mapper.writeValueAsString(input);
 
-        MathSolution math = new MathSolution();
-        math.setOperand1(20);
-        math.setOperand2(10);
-        math.setOperation("subtract");
+        MathSolution math = new MathSolution(20, 10, "subtract");
         math.setAnswer(math.getOperand1() - math.getOperand2());
         String expectedJson = mapper.writeValueAsString(math);
 
@@ -80,10 +73,7 @@ public class MathSolutionControllerTest {
         input.put("operand2", "2");
         String inputJson = mapper.writeValueAsString(input);
 
-        MathSolution math = new MathSolution();
-        math.setOperand1(3);
-        math.setOperand2(2);
-        math.setOperation("multiply");
+        MathSolution math = new MathSolution(3, 2, "multiply");
         math.setAnswer(math.getOperand1() * math.getOperand2());
         String expectedJson = mapper.writeValueAsString(math);
 
@@ -102,10 +92,7 @@ public class MathSolutionControllerTest {
         input.put("operand2", "2");
         String inputJson = mapper.writeValueAsString(input);
 
-        MathSolution math = new MathSolution();
-        math.setOperand1(16);
-        math.setOperand2(2);
-        math.setOperation("divide");
+        MathSolution math = new MathSolution(16, 2, "divide");
         math.setAnswer(math.getOperand1() / math.getOperand2());
         String expectedJson = mapper.writeValueAsString(math);
 
@@ -118,6 +105,7 @@ public class MathSolutionControllerTest {
 
     @Test
     public void shouldReturn422ErrorCodeWithNonIntegerInput() throws Exception {
+
         Map<String, String> input1 = new HashMap<>();
         input1.put("operand1", "16");
         input1.put("operand2", "Three");
@@ -130,7 +118,7 @@ public class MathSolutionControllerTest {
                 .andExpect(status().isUnprocessableEntity());
 
         Map<String, String> input2 = new HashMap<>();
-        input2.put("operand1"," false");
+        input2.put("operand1", "false");
         input2.put("operand2", "10");
         String inputJson2 = mapper.writeValueAsString(input2);
 
@@ -152,7 +140,7 @@ public class MathSolutionControllerTest {
                 .andExpect(status().isUnprocessableEntity());
 
         Map<String, String> input4 = new HashMap<>();
-        input4.put("operand1", "one");
+        input4.put("operand1", ".00002");
         input4.put("operand2", "2");
         String inputJson4 = mapper.writeValueAsString(input4);
 
@@ -176,7 +164,7 @@ public class MathSolutionControllerTest {
                 .andDo(print())
                 .andExpect(status().isUnprocessableEntity());
 
- Map<String, String> input2 = new HashMap<>();
+        Map<String, String> input2 = new HashMap<>();
         input2.put("operand1", null);
         input2.put("operand2", null);
         String inputJson2 = mapper.writeValueAsString(input2);
@@ -199,7 +187,7 @@ public class MathSolutionControllerTest {
                 .andExpect(status().isUnprocessableEntity());
 
         Map<String, String> input4 = new HashMap<>();
-        input4.put("operand1", "5");
+        input4.put("operand1", "6");
         input4.put("operand2", null);
         String inputJson4 = mapper.writeValueAsString(input4);
 
@@ -211,7 +199,7 @@ public class MathSolutionControllerTest {
     }
 
     @Test
-    public void shouldReturn422ErrorCodeWithDivisionByZero()throws Exception {
+    public void shouldReturn422ErrorCodeWithDivisionByZero() throws Exception {
         Map<String, String> input = new HashMap<>();
         input.put("operand1", "16");
         input.put("operand2", "0");

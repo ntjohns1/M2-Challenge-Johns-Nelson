@@ -15,9 +15,10 @@ public class MathSolution {
     public MathSolution() {
     }
 
-    public MathSolution(Integer operand1, Integer operand2) {
+    public MathSolution(Integer operand1, Integer operand2, String operation) {
         this.operand1 = operand1;
         this.operand2 = operand2;
+        this.operation = operation;
     }
 
     public Integer getOperand1() {
