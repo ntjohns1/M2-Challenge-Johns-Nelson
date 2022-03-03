@@ -9,7 +9,5 @@ import static org.junit.Assert.*;
 @WebMvcTest(MathSolutionController.class)
 public class MathSolutionControllerTest {
 
-    @org.junit.Before
-    public void setUp() throws Exception {
-    }
+
 }

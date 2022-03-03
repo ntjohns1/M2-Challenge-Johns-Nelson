@@ -7,6 +7,14 @@ public class Month {
     String number;
     String name;
 
+    public Month() {
+    }
+
+    public Month(String number, String name) {
+        this.number = number;
+        this.name = name;
+    }
+
     public String getNumber() {
         return number;
     }

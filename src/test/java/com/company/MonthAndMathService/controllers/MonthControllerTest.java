@@ -14,8 +14,7 @@ import static org.junit.Assert.*;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(MonthController.class)
@@ -59,6 +58,19 @@ public class MonthControllerTest {
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().string(outputJson3));
+    }
 
+    @Test
+    public void shouldReturnRandomMonth() throws Exception {
+        mockMvc.perform(get("/randomMonth"))
+                .andDo(print())
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    public void shouldReturn422ErrorCodeIfInputOutOfRange() throws Exception {
+            mockMvc.perform(get("/month/13"))
+                    .andDo(print())
+                    .andExpect(status().isUnprocessableEntity());
     }
 }
